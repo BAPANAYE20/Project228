@@ -1,0 +1,53 @@
+{% extends 'store/main1.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Search Form -->
+<form id="search-form" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search for products" aria-label="Search" id="search-input" autocomplete="off">
+</form>
+
+<!-- Products List -->
+<div class="row" id="product-list">
+    {% for product in products %}
+    <div class="col-lg-4 product-item">
+        <img class="thumbnail" src="{{ product.imageURL }}">
+        <div class="box-element product">
+            <h6 class="product-name"><strong>{{ product.name }}</strong></h6>
+            <hr>
+
+            <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+            <a class="btn btn-outline-success" href="#">View</a>
+            <h4 style="display: inline-block; float: right"><strong>
+                ₵{{ product.price|floatformat:2 }}</strong></h4>
+
+        </div>
+    </div>
+    {% empty %}
+    <p>No products available.</p>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const productContainer = document.getElementById('product-list');
+
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value.toLowerCase();
+        const products = document.querySelectorAll('.product-item');
+
+        products.forEach(product => {
+            const productName = product.querySelector('.product-name').textContent.toLowerCase();
+            if (productName.includes(query)) {
+                product.style.display = ''; // Show product
+            } else {
+                product.style.display = 'none'; // Hide product
+            }
+        });
+    });
+});
+</script>
+{% endblock extra_js %}

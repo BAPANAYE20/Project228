@@ -1,0 +1,38 @@
+{% extends 'store/main1.html' %}
+{% load custom_filters %}
+
+{% block title %}Farm-Fresh | Login{% endblock %}
+
+{% block content %}
+<div class="login-container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="login-form bg-light p-4 rounded shadow">
+        <h1 class="text-center mb-4">Login</h1>
+        {% if messages %}
+        <div class="alert alert-warning">
+            <ul class="mb-0">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password|add_class:"form-control" }}
+            </div>
+            <div class="mb-3 text-end">
+                <a href="{% url 'reset_password' %}">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Login</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
